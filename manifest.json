@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+
+  "name": "Ketchup",
+  "description": "Keeps track of the feeds you like visiting and keeps you caught up.",
+  "version": "0.0.1",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "permissions": [
+    "unlimitedStorage", "activeTab", "storage", "alarms"
+  ],
+  
+  "content_scripts": [
+      {
+          "matches": ["*://*/*"],
+          "js": ["async.js", "scraper.js"]
+      }
+  ],
+
+  "background": {
+      "scripts": ["jquery.js", "jquery.jfeed.js", "event.js"],
+      "persistent": false
+  }
+
+}
+
+

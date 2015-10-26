@@ -1,0 +1,10 @@
+Storage Scheme
+{
+    domain1: {
+        "favorite": true/false,
+        "feed_url": feed_url,
+        "read": [post1, post2, ...],
+        "unread" [post1, post2, ...] // new -> old
+    },
+    ...
+}
