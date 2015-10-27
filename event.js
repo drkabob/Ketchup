@@ -13,12 +13,14 @@ chrome.alarms.create('RSSUpdate', {periodInMinutes: 1});
 chrome.alarms.onAlarm.addListener(function(alarm) {
     if (alarm.name == 'RSSUpdate') {
         updateRSS();
+        updateBadge();
     }
 });
 
 /* Updates the unread fields of all our RSS feeds. */
 function updateRSS() {
     chrome.storage.local.get(null, function(data) {
+
         for (var domain in data) {
             getFeedLinksExtended(data[domain].feed_url, domain,
             function(feedLinks, domain) {
@@ -36,6 +38,26 @@ function updateRSS() {
                 }
             });
 
+        }
+    });
+
+}
+
+/* Updates the badge text to be the number of unread posts */
+function updateBadge() {
+    chrome.browserAction.setBadgeBackgroundColor({color: "red"});
+
+    chrome.storage.local.get(null, function(data) {
+        total = 0;
+        for (var domain in data) {
+            if (data[domain].favorite) {
+                total += data[domain].unread.length;
+            }
+        }
+        if (total > 0) {
+            chrome.browserAction.setBadgeText({text: total.toString()});
+        } else {
+            chrome.browserAction.setBadgeText({text: ""});
         }
     });
 }
