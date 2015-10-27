@@ -144,6 +144,7 @@ function handleVisit(url) {
             chrome.storage.local.set(domainData);
         }
     });
+    updateBadge();
 }
 
 /* Gets links from a feed URL
