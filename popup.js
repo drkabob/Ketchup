@@ -34,7 +34,7 @@ function draw() {
         });
 
         for (var domain in data) {
-            if (data[domain].favorite == true) {
+            if (data[domain].favorite == true && data[domain].unread.length > 0) {
                 var row = document.createElement("tr");
                 
                 var faviconCol = document.createElement("td");
@@ -56,19 +56,18 @@ function draw() {
                             );
                             draw();
                         };
-                    } else {
-                        row.onclick = function() {
-                            chrome.tabs.create(
-                                    {url: "http://" + domain}
-                            );
-                            draw();
-                        };
                     }
                 }
                 set(data[domain], domain);
 
                 table.appendChild(row);
             }
+        }
+
+        if (table.innerHTML == "") {
+            var span = document.getElementById("nonew");
+            var text = document.createTextNode("No new updates!");
+            span.appendChild(text);
         }
 
         document.getElementsByTagName("body")[0].appendChild(table);
